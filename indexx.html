@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="css/navBar.css" />
     <link rel="stylesheet" href="css/homeSection.css" />
     <link rel="stylesheet" href="css/aboutSection.css" />
-    <link rel="stylesheet" href="css/projectsSection.css" />
+    <link rel="stylesheet" href="css/projectSection.css" />
     <link rel="stylesheet" href="css/skillsSection.css" />
     <link rel="stylesheet" href="css/contactSection.css" />
     <link rel="stylesheet" href="css/footerSection.css" />
@@ -45,7 +45,7 @@
     <meta name="author" content="Lakhini Voshadee" />
   </head>
   <body>
-     <!-- Background Animations -->
+    <!-- Background Animations -->
     <div class="floating-animations">
       <div class="floating-dot"></div>
       <div class="floating-dot"></div>
@@ -64,21 +64,26 @@
     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
       <div class="container">
         <a class="navbar-brand" href="#home" aria-label="Lakhini V Portfolio">
-          <span class="brand-name">Lakhini V</span><span class="brand-dot">.</span>
+          <span class="brand-name">Lakhini V</span
+          ><span class="brand-dot">.</span>
         </a>
 
         <div class="nav-pills-container d-none d-lg-flex">
           <div class="nav-pills">
             <a href="#home" class="nav-pill active" aria-current="page">Home</a>
             <a href="#about" class="nav-pill">About</a>
-            <a href="#projects" class="nav-pill">Work</a>
+            <a href="#projects" class="nav-pill">Projects</a>
             <a href="#skills" class="nav-pill">Skills</a>
             <a href="#contact" class="nav-pill">Contact</a>
           </div>
         </div>
 
         <div class="navbar-actions">
-          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            aria-label="Toggle theme"
+          >
             <i class="fas fa-moon theme-icon"></i>
           </button>
 
@@ -184,10 +189,20 @@
 
               <!-- Social Links -->
               <div class="social-links">
-                <a href="https://linkedin.com/in/lakhinivoshadee" class="social-link" title="LinkedIn" target="_blank">
+                <a
+                  href="https://linkedin.com/in/lakhinivoshadee"
+                  class="social-link"
+                  title="LinkedIn"
+                  target="_blank"
+                >
                   <i class="fab fa-linkedin-in"></i>
                 </a>
-                <a href="https://github.com/LakhiniVoshadee" class="social-link" title="GitHub" target="_blank">
+                <a
+                  href="https://github.com/LakhiniVoshadee"
+                  class="social-link"
+                  title="GitHub"
+                  target="_blank"
+                >
                   <i class="fab fa-github"></i>
                 </a>
                 <a href="#" class="social-link" title="Twitter">
@@ -208,223 +223,279 @@
 
     <!-- About Section -->
     <section id="about" class="about-section">
-  <div class="container">
-    <!-- Section Header -->
-    <div class="row mb-5">
-      <div class="col-12 text-center">
-        <h2 class="section-title" data-aos="fade-up">About Me</h2>
-        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-          Passionate about creating digital experiences that matter
-        </p>
-      </div>
-    </div>
-
-    <!-- Main About Content -->
-    <div class="row align-items-start mb-5">
-      <div class="col-lg-7 col-md-12">
-        <div class="about-content" data-aos="fade-right">
-          <div class="intro-text mb-4">
-            <p class="lead">
-              I'm a passionate UI/UX Designer and Full-Stack Developer with expertise in creating 
-              user-centered digital solutions. I combine design thinking with technical excellence 
-              to build applications that not only look great but perform exceptionally.
+      <div class="container">
+        <!-- Section Header -->
+        <div class="row mb-5">
+          <div class="col-12 text-center">
+            <h2 class="section-title" data-aos="fade-up">About Me</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+              Passionate about creating digital experiences that matter
             </p>
           </div>
-          
-          <div class="about-details mb-4">
-            <p>
-              With experience in modern frameworks like React, Node.js, and design tools like Figma, 
-              I bridge the gap between design and development to deliver seamless user experiences. 
-              My approach focuses on understanding user needs and translating them into intuitive, 
-              accessible, and scalable solutions.
-            </p>
-          </div>
-
-          
-          <!-- Skills Highlights -->
-          <div class="skills-highlight mb-4" data-aos="fade-up" data-aos-delay="500">
-            <h4 class="skills-title">Expertise Areas</h4>
-            <div class="skills-tags">
-              <span class="skill-tag">UI/UX Design</span>
-              <span class="skill-tag">Frontend Development</span>
-              <span class="skill-tag">Full-Stack Development</span>
-              <span class="skill-tag">Responsive Design</span>
-              <span class="skill-tag">User Research</span>
-              <span class="skill-tag">Prototyping</span>
-            </div>
-          </div>
-
-          <!-- Download Resume -->
-          <div class="resume-section" data-aos="fade-up" data-aos-delay="600">
-            <button class="btn btn-primary btn-download" onclick="downloadResume()">
-              <i class="fas fa-download me-2"></i>
-              Download Resume
-            </button>
-            <button class="btn btn-outline-secondary ms-3" onclick="scrollToContact()">
-              <i class="fas fa-envelope me-2"></i>
-              Get In Touch
-            </button>
-          </div>
         </div>
-      </div>
 
-      <!-- Profile Image - Fixed Position -->
-      <div class="col-lg-5 col-md-12">
-        <div class="profile-section" data-aos="fade-left" data-aos-delay="300">
-          <div class="profile-image-container">
-            <div class="profile-image-wrapper">
-              <img 
-                src="assets/images/WhiteFormal.png" 
-                alt="Lakhini Voshadee - Profile" 
-                class="profile-img"
-                loading="lazy"
-              />
-              <div class="profile-overlay">
-                <div class="profile-info">
-                  <h4>Lakhini Voshadee</h4>
-                  <p>UI/UX & Full-Stack Engineer</p>
+        <!-- Main About Content -->
+        <div class="row align-items-start mb-5">
+          <div class="col-lg-7 col-md-12">
+            <div class="about-content" data-aos="fade-right">
+              <div class="intro-text mb-4">
+                <p class="lead">
+                  I'm a passionate UI/UX Designer and Full-Stack Developer with
+                  expertise in creating user-centered digital solutions. I
+                  combine design thinking with technical excellence to build
+                  applications that not only look great but perform
+                  exceptionally.
+                </p>
+              </div>
+
+              <div class="about-details mb-4">
+                <p>
+                  With experience in modern frameworks like React, Node.js, and
+                  design tools like Figma, I bridge the gap between design and
+                  development to deliver seamless user experiences. My approach
+                  focuses on understanding user needs and translating them into
+                  intuitive, accessible, and scalable solutions.
+                </p>
+              </div>
+
+              <!-- Skills Highlights -->
+              <div
+                class="skills-highlight mb-4"
+                data-aos="fade-up"
+                data-aos-delay="500"
+              >
+                <h4 class="skills-title">Expertise Areas</h4>
+                <div class="skills-tags">
+                  <span class="skill-tag">UI/UX Design</span>
+                  <span class="skill-tag">Frontend Development</span>
+                  <span class="skill-tag">Full-Stack Development</span>
+                  <span class="skill-tag">Responsive Design</span>
+                  <span class="skill-tag">User Research</span>
+                  <span class="skill-tag">Prototyping</span>
                 </div>
               </div>
-            </div>
-            <!-- Decorative Elements -->
-            <div class="decoration decoration-1"></div>
-            <div class="decoration decoration-2"></div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Education & Experience Timeline -->
-    <div class="row">
-      <div class="col-12">
-        <div class="timeline-section">
-          <div class="row">
-            <!-- Education -->
-            <div class="col-lg-6 mb-4">
-              <div class="timeline-card education-card" data-aos="fade-up" data-aos-delay="700">
-                <div class="card-header">
-                  <div class="header-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                  </div>
-                  <div class="header-content">
-                    <h3>Education</h3>
-                    <p>Academic Background & Certifications</p>
-                  </div>
-                </div>
-                
-                <div class="timeline-container">
-                  <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                      <div class="timeline-date">2020 - 2024</div>
-                      <h4>Bachelor's in Computer Science</h4>
-                      <h5>University of Technology</h5>
-                      <p>Specialized in Software Engineering and UI/UX Design with focus on modern web technologies and user-centered design principles.</p>
-                      <div class="achievement-tags">
-                        <span class="achievement-tag">Magna Cum Laude</span>
-                        <span class="achievement-tag">Dean's List</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                      <div class="timeline-date">2023</div>
-                      <h4>Full-Stack Development Certification</h4>
-                      <h5>Tech Institute</h5>
-                      <p>Comprehensive program covering MERN Stack, modern JavaScript frameworks, and best practices in web development.</p>
-                      <div class="achievement-tags">
-                        <span class="achievement-tag">Top 5%</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <!-- Download Resume -->
+              <div
+                class="resume-section"
+                data-aos="fade-up"
+                data-aos-delay="600"
+              >
+                <button
+                  class="btn btn-primary btn-download"
+                  onclick="downloadResume()"
+                >
+                  <i class="fas fa-download me-2"></i>
+                  Download Resume
+                </button>
+                <button
+                  class="btn btn-outline-secondary ms-3"
+                  onclick="scrollToContact()"
+                >
+                  <i class="fas fa-envelope me-2"></i>
+                  Get In Touch
+                </button>
               </div>
             </div>
+          </div>
 
-            <!-- Experience -->
-            <div class="col-lg-6 mb-4">
-              <div class="timeline-card experience-card" data-aos="fade-up" data-aos-delay="800">
-                <div class="card-header">
-                  <div class="header-icon">
-                    <i class="fas fa-briefcase"></i>
-                  </div>
-                  <div class="header-content">
-                    <h3>Experience</h3>
-                    <p>Professional Journey & Achievements</p>
-                  </div>
-                </div>
-                
-                <div class="timeline-container">
-                  <div class="timeline-item">
-                    <div class="timeline-marker active"></div>
-                    <div class="timeline-content">
-                      <div class="timeline-date">2024 - Present</div>
-                      <h4>UI/UX Designer & Developer</h4>
-                      <h5>Digital Solutions Co.</h5>
-                      <p>Leading design and development of user-centered applications, conducting user research, and implementing modern design systems.</p>
-                      <div class="achievement-tags">
-                        <span class="achievement-tag">Team Lead</span>
-                        <span class="achievement-tag">15+ Projects</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                      <div class="timeline-date">2023 - 2024</div>
-                      <h4>Junior Full-Stack Developer</h4>
-                      <h5>StartUp Tech</h5>
-                      <p>Developed responsive web applications using React and Node.js, collaborated with cross-functional teams to deliver high-quality software solutions.</p>
-                      <div class="achievement-tags">
-                        <span class="achievement-tag">10+ Apps</span>
-                      </div>
+          <!-- Profile Image - Fixed Position -->
+          <div class="col-lg-5 col-md-12">
+            <div
+              class="profile-section"
+              data-aos="fade-left"
+              data-aos-delay="300"
+            >
+              <div class="profile-image-container">
+                <div class="profile-image-wrapper">
+                  <img
+                    src="assets/images/WhiteFormal.png"
+                    alt="Lakhini Voshadee - Profile"
+                    class="profile-img"
+                    loading="lazy"
+                  />
+                  <div class="profile-overlay">
+                    <div class="profile-info">
+                      <h4>Lakhini Voshadee</h4>
+                      <p>UI/UX & Full-Stack Engineer</p>
                     </div>
                   </div>
                 </div>
+                <!-- Decorative Elements -->
+                <div class="decoration decoration-1"></div>
+                <div class="decoration decoration-2"></div>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- Education & Experience Timeline -->
+        <div class="row">
+          <div class="col-12">
+            <div class="timeline-section">
+              <div class="row">
+                <!-- Education -->
+                <div class="col-lg-6 mb-4">
+                  <div
+                    class="timeline-card education-card"
+                    data-aos="fade-up"
+                    data-aos-delay="700"
+                  >
+                    <div class="card-header">
+                      <div class="header-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                      </div>
+                      <div class="header-content">
+                        <h3>Education</h3>
+                        <p>Academic Background & Certifications</p>
+                      </div>
+                    </div>
+
+                    <div class="timeline-container">
+                      <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                          <div class="timeline-date">2020 - 2024</div>
+                          <h4>Bachelor's in Computer Science</h4>
+                          <h5>University of Technology</h5>
+                          <p>
+                            Specialized in Software Engineering and UI/UX Design
+                            with focus on modern web technologies and
+                            user-centered design principles.
+                          </p>
+                          <div class="achievement-tags">
+                            <span class="achievement-tag">Magna Cum Laude</span>
+                            <span class="achievement-tag">Dean's List</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                          <div class="timeline-date">2023</div>
+                          <h4>Full-Stack Development Certification</h4>
+                          <h5>Tech Institute</h5>
+                          <p>
+                            Comprehensive program covering MERN Stack, modern
+                            JavaScript frameworks, and best practices in web
+                            development.
+                          </p>
+                          <div class="achievement-tags">
+                            <span class="achievement-tag">Top 5%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="col-lg-6 mb-4">
+                  <div
+                    class="timeline-card experience-card"
+                    data-aos="fade-up"
+                    data-aos-delay="800"
+                  >
+                    <div class="card-header">
+                      <div class="header-icon">
+                        <i class="fas fa-briefcase"></i>
+                      </div>
+                      <div class="header-content">
+                        <h3>Experience</h3>
+                        <p>Professional Journey & Achievements</p>
+                      </div>
+                    </div>
+
+                    <div class="timeline-container">
+                      <div class="timeline-item">
+                        <div class="timeline-marker active"></div>
+                        <div class="timeline-content">
+                          <div class="timeline-date">2024 - Present</div>
+                          <h4>UI/UX Designer & Developer</h4>
+                          <h5>Digital Solutions Co.</h5>
+                          <p>
+                            Leading design and development of user-centered
+                            applications, conducting user research, and
+                            implementing modern design systems.
+                          </p>
+                          <div class="achievement-tags">
+                            <span class="achievement-tag">Team Lead</span>
+                            <span class="achievement-tag">15+ Projects</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                          <div class="timeline-date">2023 - 2024</div>
+                          <h4>Junior Full-Stack Developer</h4>
+                          <h5>StartUp Tech</h5>
+                          <p>
+                            Developed responsive web applications using React
+                            and Node.js, collaborated with cross-functional
+                            teams to deliver high-quality software solutions.
+                          </p>
+                          <div class="achievement-tags">
+                            <span class="achievement-tag">10+ Apps</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="section bg-alternate">
+    <section id="projects" class="section">
       <div class="container">
+        <!-- Section Header -->
         <div class="row">
-          <div class="col-lg-12">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="section-subtitle">
-              A showcase of my recent work in UI/UX and development
+          <div class="col-lg-12 text-center">
+            <div>
+              <h2 class="section-title">Featured Projects</h2>
+
+              <p class="section-subtitle">
+                A showcase of my recent work in UI/UX and development
+              </p>
             </div>
           </div>
         </div>
 
-        <div class="row mt-5">
+        <!-- Projects Grid -->
+        <div class="row g-4 mt-4">
           <!-- Project 1 -->
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="project-card">
+          <div class="col-lg-4 col-md-6">
+            <div class="project-card" data-aos="fade-up">
               <div class="project-image">
                 <img
-                  src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
                   alt="Task Manager App"
                   class="img-fluid"
                 />
                 <div class="project-overlay">
+                  <div class="project-category">Full-Stack Development</div>
                   <div class="project-links">
                     <a
                       href="https://github.com/LakhiniVoshadee/task-manager-app"
                       target="_blank"
                       class="project-link"
+                      title="View Code"
                     >
                       <i class="fab fa-github"></i>
                     </a>
-                    <a href="#" target="_blank" class="project-link">
+                    <a
+                      href="#"
+                      target="_blank"
+                      class="project-link"
+                      title="Live Demo"
+                    >
                       <i class="fas fa-external-link-alt"></i>
                     </a>
                   </div>
@@ -448,24 +519,31 @@
           </div>
 
           <!-- Project 2 -->
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="project-card">
+          <div class="col-lg-4 col-md-6">
+            <div class="project-card" data-aos="fade-up" data-aos-delay="100">
               <div class="project-image">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
                   alt="LitShelf BookStore"
                   class="img-fluid"
                 />
                 <div class="project-overlay">
+                  <div class="project-category">E-Commerce Platform</div>
                   <div class="project-links">
                     <a
                       href="https://github.com/LakhiniVoshadee/LitShelf--Online-BookStore--Frontend"
                       target="_blank"
                       class="project-link"
+                      title="View Code"
                     >
                       <i class="fab fa-github"></i>
                     </a>
-                    <a href="#" target="_blank" class="project-link">
+                    <a
+                      href="#"
+                      target="_blank"
+                      class="project-link"
+                      title="Live Demo"
+                    >
                       <i class="fas fa-external-link-alt"></i>
                     </a>
                   </div>
@@ -489,24 +567,31 @@
           </div>
 
           <!-- Project 3 -->
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="project-card">
+          <div class="col-lg-4 col-md-6">
+            <div class="project-card" data-aos="fade-up" data-aos-delay="200">
               <div class="project-image">
                 <img
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80"
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2015&q=80"
                   alt="Data Analysis Project"
                   class="img-fluid"
                 />
                 <div class="project-overlay">
+                  <div class="project-category">Data Analysis</div>
                   <div class="project-links">
                     <a
                       href="https://github.com/MaheshaDinu/online-retail-analysis-python-assignment"
                       target="_blank"
                       class="project-link"
+                      title="View Code"
                     >
                       <i class="fab fa-github"></i>
                     </a>
-                    <a href="#" target="_blank" class="project-link">
+                    <a
+                      href="#"
+                      target="_blank"
+                      class="project-link"
+                      title="Live Demo"
+                    >
                       <i class="fas fa-external-link-alt"></i>
                     </a>
                   </div>
@@ -802,15 +887,16 @@
       <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <!-- Custom JS -->
 
     <script src="js/navBar.js"></script>
     <script src="js/homeSection.js"></script>
     <script src="js/aboutSection.js"></script>
-    <script src="js/projectsSection.js"></script>
+    <script src="js/projectSection.js"></script>
     <script src="js/skillsSection.js"></script>
     <script src="js/contactSection.js"></script>
     <script src="js/footerSection.js"></script>
