@@ -74,7 +74,7 @@ body {
 }
 
 .brand-dot {
-    color: var(--text-secondary);
+    color: #e7818f;
     font-size: 1.8rem;
 }
 
@@ -121,13 +121,13 @@ body {
 }
 
 .nav-pill:hover {
-    color: var(--text-primary);
+    color: #e7818f;
     transform: translateY(-1px);
 }
 
 .nav-pill.active {
     background: var(--pill-active);
-    color: var(--pill-active-text);
+    color: #e7818f;
     box-shadow: 0 2px 10px var(--shadow-medium);
 }
 
