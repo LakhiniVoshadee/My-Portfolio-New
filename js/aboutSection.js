@@ -1,366 +1,293 @@
-// ==================== ABOUT SECTION FUNCTIONALITY ====================
-
+// Animation on Scroll (Simple Implementation)
 document.addEventListener('DOMContentLoaded', function() {
-    initializeAboutSection();
+    // Initialize animations
+    initScrollAnimations();
+    
+    // Add smooth scrolling for any internal links
+    initSmoothScrolling();
+    
+    // Add typing effect for highlight text
+    initTypingEffect();
 });
 
-function initializeAboutSection() {
-    // Initialize number counters
-    initCounterAnimations();
-
-    // Initialize scroll animations
-    initAboutScrollAnimations();
-
-    // Initialize tech item animations
-    initTechAnimations();
-
-    // Initialize intersection observers
-    initAboutObservers();
-
-    // Initialize theme handling
-    initAboutThemeHandling();
-
-    // Initialize resume download tracking
-    initResumeDownload();
-}
-
-// ==================== COUNTER ANIMATIONS ====================
-function initCounterAnimations() {
-    const counters = document.querySelectorAll('.stat-number[data-count]');
-
-    const animateCounter = (counter) => {
-        const target = parseInt(counter.getAttribute('data-count'));
-        let current = 0;
-        const increment = target / 50; // Animation duration control
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            counter.textContent = Math.floor(current);
-        }, 50);
+// Scroll Animations
+function initScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
     };
 
-    // Intersection Observer for counters
-    const counterObserver = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
-            if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
-                entry.target.classList.add('counted');
-                animateCounter(entry.target);
+            if (entry.isIntersecting) {
+                entry.target.classList.add('aos-animate');
             }
         });
-    }, {
-        threshold: 0.5
-    });
+    }, observerOptions);
 
-    counters.forEach(counter => {
-        counterObserver.observe(counter);
-    });
-}
-
-// ==================== SCROLL ANIMATIONS ====================
-function initAboutScrollAnimations() {
-    // Parallax effect for background shapes
-    const handleScroll = () => {
-        const scrolled = window.pageYOffset;
-        const aboutSection = document.querySelector('.about-section');
-
-        if (!aboutSection) return;
-
-        const sectionTop = aboutSection.offsetTop;
-        const sectionHeight = aboutSection.offsetHeight;
-        const windowHeight = window.innerHeight;
-
-        // Only animate when section is in view
-        if (scrolled + windowHeight > sectionTop && scrolled < sectionTop + sectionHeight) {
-            const shapes = document.querySelectorAll('.about-shape');
-            shapes.forEach((shape, index) => {
-                const speed = (index + 1) * 0.2;
-                const yPos = (scrolled - sectionTop) * speed;
-                shape.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.05}deg)`;
-            });
-        }
-    };
-
-    // Throttled scroll handler
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                handleScroll();
-                ticking = false;
-            });
-            ticking = true;
-        }
+    // Observe all elements with data-aos attribute
+    document.querySelectorAll('[data-aos]').forEach(el => {
+        observer.observe(el);
     });
 }
 
-// ==================== TECH ANIMATIONS ====================
-function initTechAnimations() {
-    const techItems = document.querySelectorAll('.tech-item');
-
-    // Add staggered animation delays
-    techItems.forEach((item, index) => {
-        item.style.animationDelay = `${(index * 0.1) + 1.4}s`;
-    });
-
-    // Enhanced hover effects
-    techItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px) scale(1.05)';
+// Smooth Scrolling
+function initSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         });
+    });
+}
 
+// Typing Effect for Highlight Text
+function initTypingEffect() {
+    const highlightText = document.querySelector('.highlight-text strong');
+    if (highlightText) {
+        const text = highlightText.textContent;
+        highlightText.textContent = '';
+        
+        // Start typing effect after a delay
+        setTimeout(() => {
+            typeText(highlightText, text, 50);
+        }, 1000);
+    }
+}
+
+function typeText(element, text, speed) {
+    let i = 0;
+    const timer = setInterval(() => {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+        } else {
+            clearInterval(timer);
+        }
+    }, speed);
+}
+
+// Download Resume Function
+function downloadResume() {
+    // Add loading state to button
+    const btn = document.querySelector('.btn-download');
+    const originalText = btn.innerHTML;
+    
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Preparing...';
+    btn.disabled = true;
+    
+    // Simulate download preparation
+    setTimeout(() => {
+        // Reset button
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        
+        // Create a dummy PDF download
+        // In a real application, you would link to your actual resume file
+        const link = document.createElement('a');
+        link.href = '#'; // Replace with actual resume file path
+        link.download = 'John_Doe_Resume.pdf'; // Replace with your name
+        
+        // Show success message
+        showNotification('Resume download started!', 'success');
+        
+        // Uncomment the next line when you have an actual resume file
+        // link.click();
+    }, 1500);
+}
+
+// Notification System
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'} me-2"></i>
+        ${message}
+    `;
+    
+    // Add styles
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#28a745' : '#007bff'};
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        transform: translateX(400px);
+        transition: transform 0.3s ease;
+        font-weight: 500;
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Remove after delay
+    setTimeout(() => {
+        notification.style.transform = 'translateX(400px)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Skill items hover effect
+document.addEventListener('DOMContentLoaded', function() {
+    const skillItems = document.querySelectorAll('.skill-item');
+    
+    skillItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px) scale(1.02)';
+        });
+        
         item.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0) scale(1)';
         });
+    });
+});
 
-        // Add ripple effect on click
-        item.addEventListener('click', function(e) {
+// Timeline items animation
+function animateTimeline() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    timelineItems.forEach((item, index) => {
+        setTimeout(() => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-30px)';
+            item.style.transition = 'all 0.6s ease';
+            
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+            }, 100);
+        }, index * 200);
+    });
+}
+
+// Parallax effect for profile image
+function initParallaxEffect() {
+    const profileImage = document.querySelector('.profile-image-wrapper');
+    
+    if (profileImage) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            if (scrolled > 0) {
+                profileImage.style.transform = `translateY(${rate}px)`;
+            }
+        });
+    }
+}
+
+// Counter animation for stats (if you want to add stats)
+function animateCounters() {
+    const counters = document.querySelectorAll('.counter');
+    
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const speed = 200;
+        const increment = target / speed;
+        let current = 0;
+        
+        const updateCounter = () => {
+            if (current < target) {
+                current += increment;
+                counter.textContent = Math.ceil(current);
+                setTimeout(updateCounter, 1);
+            } else {
+                counter.textContent = target;
+            }
+        };
+        
+        updateCounter();
+    });
+}
+
+// Dark mode toggle (optional feature)
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+}
+
+// Load dark mode preference
+document.addEventListener('DOMContentLoaded', function() {
+    const darkMode = localStorage.getItem('darkMode');
+    if (darkMode === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+});
+
+// Add loading animation
+window.addEventListener('load', function() {
+    document.body.classList.add('loaded');
+    
+    // Initialize additional features
+    setTimeout(() => {
+        animateTimeline();
+        initParallaxEffect();
+    }, 500);
+});
+
+// Add click effects to cards
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.info-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Create ripple effect
             const ripple = document.createElement('div');
             const rect = this.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
-
+            
             ripple.style.cssText = `
                 position: absolute;
                 width: ${size}px;
                 height: ${size}px;
                 left: ${x}px;
                 top: ${y}px;
-                background: radial-gradient(circle, rgba(102, 126, 234, 0.3), transparent);
+                background: rgba(0, 0, 0, 0.1);
                 border-radius: 50%;
                 transform: scale(0);
-                animation: ripple 0.6s ease-out;
+                animation: ripple 0.6s linear;
                 pointer-events: none;
-                z-index: 1;
             `;
-
+            
             this.style.position = 'relative';
+            this.style.overflow = 'hidden';
             this.appendChild(ripple);
-
+            
             setTimeout(() => {
                 ripple.remove();
             }, 600);
         });
     });
+});
 
-    // Add ripple animation CSS
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes ripple {
-            to {
-                transform: scale(2);
-                opacity: 0;
-            }
+// CSS for ripple animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
         }
-    `;
-    document.head.appendChild(style);
-}
-
-// ==================== INTERSECTION OBSERVERS ====================
-function initAboutObservers() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-
-                // Special handling for tech categories
-                if (entry.target.classList.contains('tech-category')) {
-                    const techItems = entry.target.querySelectorAll('.tech-item');
-                    techItems.forEach((item, index) => {
-                        setTimeout(() => {
-                            item.style.opacity = '1';
-                            item.style.transform = 'translateY(0)';
-                        }, index * 100);
-                    });
-                }
-            }
-        });
-    }, observerOptions);
-
-    // Observe main elements
-    const elementsToObserve = [
-        '.about-intro',
-        '.tech-category',
-        '.resume-section'
-    ];
-
-    elementsToObserve.forEach(selector => {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach(element => observer.observe(element));
-    });
-
-    // Initially hide tech items for staggered animation
-    const techItems = document.querySelectorAll('.tech-item');
-    techItems.forEach(item => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(20px)';
-        item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    });
-}
-
-// ==================== THEME HANDLING ====================
-function initAboutThemeHandling() {
-    const updateAboutTheme = () => {
-        const isDark = document.body.classList.contains('theme-dark');
-        const aboutSection = document.querySelector('.about-section');
-
-        if (aboutSection) {
-            if (isDark) {
-                aboutSection.setAttribute('data-theme', 'dark');
-            } else {
-                aboutSection.removeAttribute('data-theme');
-            }
-        }
-    };
-
-    // Initial theme setup
-    updateAboutTheme();
-
-    // Observe theme changes
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                updateAboutTheme();
-            }
-        });
-    });
-
-    observer.observe(document.body, {
-        attributes: true,
-        attributeFilter: ['class']
-    });
-}
-
-// ==================== RESUME DOWNLOAD ====================
-function initResumeDownload() {
-    const resumeBtn = document.querySelector('.resume-btn');
-
-    if (resumeBtn) {
-        resumeBtn.addEventListener('click', function(e) {
-            // Add download animation
-            this.style.transform = 'scale(0.95)';
-
-            setTimeout(() => {
-                this.style.transform = 'translateY(-3px)';
-            }, 150);
-
-            // Track download event (you can integrate with analytics)
-            console.log('Resume download initiated');
-
-            // Add success notification (optional)
-            showDownloadNotification();
-        });
     }
-}
-
-function showDownloadNotification() {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--gradient-primary);
-        color: white;
-        padding: 15px 25px;
-        border-radius: 10px;
-        font-family: 'Inter', sans-serif;
-        font-weight: 500;
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        z-index: 1000;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    `;
-    notification.textContent = 'Resume download started!';
-
-    document.body.appendChild(notification);
-
-    // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-
-    // Animate out and remove
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }, 3000);
-}
-
-// ==================== TECH CATEGORY FILTERING ====================
-function initTechFiltering() {
-    // This can be extended to add filtering functionality
-    const categories = document.querySelectorAll('.tech-category');
-
-    categories.forEach(category => {
-        const header = category.querySelector('.category-header');
-
-        header.addEventListener('click', function() {
-            // Toggle expanded state
-            category.classList.toggle('expanded');
-
-            // Animate the toggle
-            const techGrid = category.querySelector('.tech-grid');
-            if (category.classList.contains('expanded')) {
-                techGrid.style.maxHeight = techGrid.scrollHeight + 'px';
-            } else {
-                techGrid.style.maxHeight = '200px'; // Default height
-            }
-        });
-    });
-}
-
-// ==================== UTILITY FUNCTIONS ====================
-
-// Debounce function for performance
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Check if element is in viewport
-function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-// Handle resize events
-window.addEventListener('resize', debounce(() => {
-    // Recalculate animations on resize if needed
-    const techItems = document.querySelectorAll('.tech-item');
-    techItems.forEach(item => {
-        item.style.transform = 'translateY(0) scale(1)';
-    });
-}, 250));
-
-// ==================== EXPORT FOR TESTING ====================
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        initializeAboutSection,
-        initCounterAnimations,
-        initTechAnimations,
-        debounce,
-        isInViewport
-    };
-}
+`;
+document.head.appendChild(style);

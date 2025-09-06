@@ -3,7 +3,7 @@ class ThemeManager {
     constructor() {
         this.themeToggle = document.getElementById('theme-toggle');
         this.themeIcon = document.getElementById('theme-icon');
-        this.currentTheme = localStorage.getItem('theme') || 'light';
+        this.currentTheme = this.getStoredTheme() || this.getSystemTheme();
         
         this.init();
     }
@@ -12,12 +12,12 @@ class ThemeManager {
         // Set initial theme
         this.setTheme(this.currentTheme);
         
-        // Add event listener for theme toggle
+        // Add event listeners
         this.themeToggle.addEventListener('click', () => {
             this.toggleTheme();
         });
         
-        // Add keyboard support for theme toggle
+        // Keyboard support
         this.themeToggle.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -26,10 +26,29 @@ class ThemeManager {
         });
         
         // Listen for system theme changes
+        this.watchSystemTheme();
+    }
+    
+    getStoredTheme() {
+        try {
+            return localStorage.getItem('portfolio-theme');
+        } catch (e) {
+            return null;
+        }
+    }
+    
+    getSystemTheme() {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+        }
+        return 'light';
+    }
+    
+    watchSystemTheme() {
         if (window.matchMedia) {
             const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
             mediaQuery.addEventListener('change', (e) => {
-                if (!localStorage.getItem('theme')) {
+                if (!this.getStoredTheme()) {
                     this.setTheme(e.matches ? 'dark' : 'light');
                 }
             });
@@ -40,7 +59,7 @@ class ThemeManager {
         const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
         this.setTheme(newTheme);
         
-        // Add a subtle animation to the toggle button
+        // Add rotation animation
         this.themeToggle.style.transform = 'rotate(360deg)';
         setTimeout(() => {
             this.themeToggle.style.transform = '';
@@ -50,39 +69,49 @@ class ThemeManager {
     setTheme(theme) {
         this.currentTheme = theme;
         document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
         
-        // Update icon
-        if (theme === 'dark') {
-            this.themeIcon.className = 'fas fa-sun';
-            this.themeToggle.setAttribute('title', 'Switch to Light Mode');
-        } else {
-            this.themeIcon.className = 'fas fa-moon';
-            this.themeToggle.setAttribute('title', 'Switch to Dark Mode');
+        // Store preference
+        try {
+            localStorage.setItem('portfolio-theme', theme);
+        } catch (e) {
+            console.warn('Could not save theme preference');
         }
         
-        // Trigger custom event for theme change
+        // Update icon and tooltip
+        this.updateThemeIcon(theme);
+        
+        // Dispatch custom event
         document.dispatchEvent(new CustomEvent('themeChanged', {
             detail: { theme: theme }
         }));
     }
+    
+    updateThemeIcon(theme) {
+        if (theme === 'dark') {
+            this.themeIcon.className = 'fas fa-sun';
+            this.themeToggle.setAttribute('title', 'Switch to Light Mode');
+            this.themeToggle.setAttribute('aria-label', 'Switch to light theme');
+        } else {
+            this.themeIcon.className = 'fas fa-moon';
+            this.themeToggle.setAttribute('title', 'Switch to Dark Mode');
+            this.themeToggle.setAttribute('aria-label', 'Switch to dark theme');
+        }
+    }
 }
 
-// Smooth Scrolling for Anchor Links
-class SmoothScroll {
+// Smooth Scrolling Navigation
+class SmoothNavigation {
     constructor() {
         this.init();
     }
     
     init() {
-        // Get all anchor links
-        const anchorLinks = document.querySelectorAll('a[href^="#"]');
-        
-        anchorLinks.forEach(link => {
+        // Handle navigation clicks
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
             link.addEventListener('click', (e) => {
                 const href = link.getAttribute('href');
                 
-                // Skip if it's just a hash or placeholder
+                // Skip empty or placeholder links
                 if (href === '#' || href === '#!') {
                     e.preventDefault();
                     return;
@@ -92,51 +121,135 @@ class SmoothScroll {
                 
                 if (targetElement) {
                     e.preventDefault();
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    
-                    // Update URL without triggering scroll
-                    history.pushState(null, null, href);
+                    this.scrollToElement(targetElement);
+                }
+            });
+        });
+        
+        // Update active nav on scroll
+        this.updateActiveNavOnScroll();
+    }
+    
+    scrollToElement(element) {
+        const offsetTop = element.offsetTop - 80; // Account for fixed navbar
+        
+        window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+        });
+    }
+    
+    updateActiveNavOnScroll() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const scrollPos = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
                 }
             });
         });
     }
 }
 
-// Animation Observer for Enhanced Animations
-class AnimationObserver {
+// Image Loading and Error Handling
+class ImageManager {
     constructor() {
-        this.observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
         this.init();
     }
     
     init() {
-        // Create intersection observer
-        this.observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                } else {
-                    entry.target.classList.remove('animate-in');
-                }
-            });
-        }, this.observerOptions);
+        const profileImage = document.querySelector('.profile-image');
         
-        // Observe animated elements
-        const animatedElements = document.querySelectorAll('.home-content > *, .image-container');
-        animatedElements.forEach(el => {
-            this.observer.observe(el);
+        if (profileImage) {
+            this.handleImageLoading(profileImage);
+        }
+    }
+    
+    handleImageLoading(img) {
+        // Add loading state
+        const container = img.closest('.image-container');
+        container.classList.add('loading');
+        
+        // Handle successful load
+        img.addEventListener('load', () => {
+            container.classList.remove('loading');
+            container.classList.add('loaded');
+            this.addImageAnimation(img);
         });
+        
+        // Handle error
+        img.addEventListener('error', () => {
+            container.classList.remove('loading');
+            container.classList.add('error');
+            this.createFallback(container);
+        });
+        
+        // If image is already cached and loaded
+        if (img.complete && img.naturalHeight !== 0) {
+            container.classList.remove('loading');
+            container.classList.add('loaded');
+            this.addImageAnimation(img);
+        }
+    }
+    
+    addImageAnimation(img) {
+        // Add entrance animation
+        img.style.animation = 'fadeIn 0.6s ease-out forwards';
+    }
+    
+    createFallback(container) {
+        // Create fallback content if image fails to load
+        const fallback = document.createElement('div');
+        fallback.className = 'image-fallback';
+        fallback.innerHTML = `
+            <div class="fallback-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+        `;
+        
+        // Add fallback styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .image-fallback {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: linear-gradient(135deg, var(--social-bg), var(--border-color));
+            }
+            .fallback-avatar {
+                font-size: 4rem;
+                color: var(--text-secondary);
+                opacity: 0.7;
+            }
+        `;
+        
+        if (!document.querySelector('style[data-fallback]')) {
+            style.setAttribute('data-fallback', 'true');
+            document.head.appendChild(style);
+        }
+        
+        container.appendChild(fallback);
     }
 }
 
-// Social Links Handler
+// Social Links Manager
 class SocialLinksManager {
     constructor() {
         this.socialLinks = document.querySelectorAll('.social-link');
@@ -145,129 +258,193 @@ class SocialLinksManager {
     
     init() {
         this.socialLinks.forEach(link => {
-            // Add click analytics (placeholder)
-            link.addEventListener('click', (e) => {
-                const platform = this.getPlatformFromIcon(link);
-                this.trackSocialClick(platform);
-                
-                // If it's a placeholder link (#), prevent navigation
-                if (link.getAttribute('href') === '#') {
-                    e.preventDefault();
-                    this.showPlaceholderMessage(platform);
-                }
-            });
-            
-            // Add hover effects
-            link.addEventListener('mouseenter', () => {
-                this.addHoverEffect(link);
-            });
-            
-            link.addEventListener('mouseleave', () => {
-                this.removeHoverEffect(link);
-            });
+            this.setupSocialLink(link);
         });
     }
     
-    getPlatformFromIcon(link) {
-        const iconClasses = link.querySelector('i').className;
-        if (iconClasses.includes('linkedin')) return 'LinkedIn';
-        if (iconClasses.includes('github')) return 'GitHub';
-        if (iconClasses.includes('twitter')) return 'Twitter';
-        if (iconClasses.includes('dribbble')) return 'Dribbble';
-        if (iconClasses.includes('behance')) return 'Behance';
+    setupSocialLink(link) {
+        // Add click handling
+        link.addEventListener('click', (e) => {
+            const platform = this.getPlatformName(link);
+            
+            if (link.getAttribute('href') === '#') {
+                e.preventDefault();
+                this.showComingSoonMessage(platform);
+                this.trackSocialClick(platform, 'placeholder');
+            } else {
+                this.trackSocialClick(platform, 'external');
+            }
+        });
+        
+        // Add hover effects
+        this.addHoverEffects(link);
+    }
+    
+    getPlatformName(link) {
+        const icon = link.querySelector('i');
+        if (!icon) return 'Unknown';
+        
+        const classes = icon.className;
+        if (classes.includes('linkedin')) return 'LinkedIn';
+        if (classes.includes('github')) return 'GitHub';
+        if (classes.includes('twitter')) return 'Twitter';
+        if (classes.includes('dribbble')) return 'Dribbble';
+        if (classes.includes('behance')) return 'Behance';
         return 'Unknown';
     }
     
-    trackSocialClick(platform) {
-        console.log(`Social link clicked: ${platform}`);
-        // Here you would typically send analytics data
-        // Example: gtag('event', 'social_click', { platform: platform });
-    }
-    
-    showPlaceholderMessage(platform) {
-        // Create a temporary notification
-        const notification = document.createElement('div');
-        notification.className = 'social-notification';
-        notification.textContent = `${platform} link coming soon!`;
-        notification.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--btn-primary-bg);
-            color: var(--btn-primary-text);
-            padding: 1rem 2rem;
-            border-radius: 25px;
-            z-index: 1001;
-            font-weight: 500;
-            box-shadow: 0 10px 30px var(--shadow-color);
-            animation: fadeInUp 0.3s ease;
-        `;
-        
+    showComingSoonMessage(platform) {
+        // Create notification
+        const notification = this.createNotification(`${platform} link coming soon!`);
         document.body.appendChild(notification);
         
-        // Remove after 2 seconds
+        // Animate in
+        setTimeout(() => notification.classList.add('show'), 100);
+        
+        // Remove after delay
         setTimeout(() => {
-            notification.style.opacity = '0';
+            notification.classList.add('hide');
             setTimeout(() => {
-                document.body.removeChild(notification);
+                if (notification.parentNode) {
+                    document.body.removeChild(notification);
+                }
             }, 300);
         }, 2000);
     }
     
-    addHoverEffect(link) {
-        const icon = link.querySelector('i');
-        icon.style.transform = 'scale(1.2)';
+    createNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'social-notification';
+        notification.textContent = message;
+        
+        // Add styles if not already added
+        if (!document.querySelector('style[data-notification]')) {
+            const style = document.createElement('style');
+            style.setAttribute('data-notification', 'true');
+            style.textContent = `
+                .social-notification {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%) scale(0.8);
+                    background: var(--btn-primary-bg);
+                    color: var(--btn-primary-text);
+                    padding: 1rem 2rem;
+                    border-radius: 25px;
+                    z-index: 1001;
+                    font-weight: 500;
+                    box-shadow: 0 15px 35px var(--shadow-color);
+                    opacity: 0;
+                    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    pointer-events: none;
+                    backdrop-filter: blur(20px);
+                }
+                
+                .social-notification.show {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+                
+                .social-notification.hide {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(0.8);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        return notification;
     }
     
-    removeHoverEffect(link) {
+    addHoverEffects(link) {
         const icon = link.querySelector('i');
-        icon.style.transform = 'scale(1)';
+        
+        link.addEventListener('mouseenter', () => {
+            if (icon) {
+                icon.style.transform = 'scale(1.2) rotate(5deg)';
+            }
+        });
+        
+        link.addEventListener('mouseleave', () => {
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            }
+        });
+    }
+    
+    trackSocialClick(platform, type) {
+        // Analytics placeholder
+        console.log(`Social link clicked: ${platform} (${type})`);
+        
+        // Here you would integrate with your analytics service
+        // Example: gtag('event', 'social_click', { platform, type });
     }
 }
 
-// Performance Observer for Monitoring
-class PerformanceMonitor {
+// Performance and Loading Manager
+class PerformanceManager {
     constructor() {
         this.init();
     }
     
     init() {
-        // Monitor loading performance
+        this.measurePageLoad();
+        this.optimizeImages();
+        this.handleVisibilityChanges();
+    }
+    
+    measurePageLoad() {
         window.addEventListener('load', () => {
             if (window.performance && window.performance.timing) {
                 const loadTime = window.performance.timing.loadEventEnd - 
                                window.performance.timing.navigationStart;
-                console.log(`Page loaded in ${loadTime}ms`);
+                console.log(`Portfolio loaded in ${loadTime}ms`);
+                
+                // Track slow loads
+                if (loadTime > 3000) {
+                    console.warn('Slow page load detected');
+                }
             }
         });
+    }
+    
+    optimizeImages() {
+        const images = document.querySelectorAll('img');
         
-        // Monitor theme changes performance
-        document.addEventListener('themeChanged', (e) => {
-            const start = performance.now();
-            requestAnimationFrame(() => {
-                const end = performance.now();
-                console.log(`Theme change took ${(end - start).toFixed(2)}ms`);
+        // Add lazy loading if supported
+        if ('loading' in HTMLImageElement.prototype) {
+            images.forEach(img => {
+                if (!img.hasAttribute('loading')) {
+                    img.setAttribute('loading', 'lazy');
+                }
             });
+        }
+    }
+    
+    handleVisibilityChanges() {
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Page is hidden - pause non-essential animations
+                document.body.classList.add('page-hidden');
+            } else {
+                // Page is visible - resume animations
+                document.body.classList.remove('page-hidden');
+            }
         });
     }
 }
 
-// Accessibility Enhancements
+// Accessibility Manager
 class AccessibilityManager {
     constructor() {
         this.init();
     }
     
     init() {
-        // Add focus management
         this.addFocusManagement();
-        
-        // Add keyboard navigation
         this.addKeyboardNavigation();
-        
-        // Add screen reader enhancements
-        this.addScreenReaderSupport();
+        this.addAriaLabels();
+        this.handleReducedMotion();
     }
     
     addFocusManagement() {
@@ -278,7 +455,7 @@ class AccessibilityManager {
         
         focusableElements.forEach(el => {
             el.addEventListener('focus', () => {
-                el.style.outline = '2px solid var(--btn-primary-bg)';
+                el.style.outline = '3px solid var(--btn-primary-bg)';
                 el.style.outlineOffset = '2px';
             });
             
@@ -290,51 +467,191 @@ class AccessibilityManager {
     }
     
     addKeyboardNavigation() {
-        // Handle Enter key on buttons
-        const buttons = document.querySelectorAll('.btn, .social-link');
-        buttons.forEach(btn => {
-            btn.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.target.click();
+        // Handle Enter/Space on buttons and links
+        const interactiveElements = document.querySelectorAll('.btn, .social-link, .theme-toggle-btn');
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    el.click();
                 }
             });
         });
     }
     
-    addScreenReaderSupport() {
-        // Add dynamic aria-labels based on theme
-        document.addEventListener('themeChanged', (e) => {
-            const themeToggle = document.getElementById('theme-toggle');
-            const currentTheme = e.detail.theme;
-            const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            themeToggle.setAttribute('aria-label', 
-                `Current theme is ${currentTheme}. Click to switch to ${nextTheme} theme`
-            );
+    addAriaLabels() {
+        // Add descriptive labels for screen readers
+        const socialLinks = document.querySelectorAll('.social-link');
+        socialLinks.forEach(link => {
+            const platform = link.getAttribute('title');
+            if (platform) {
+                link.setAttribute('aria-label', `Visit ${platform} profile`);
+            }
         });
         
-        // Initial aria-label
-        const themeToggle = document.getElementById('theme-toggle');
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
-        themeToggle.setAttribute('aria-label', 
-            `Current theme is ${currentTheme}. Click to switch to ${nextTheme} theme`
-        );
+        // Update theme toggle aria-label
+        document.addEventListener('themeChanged', (e) => {
+            const toggle = document.getElementById('theme-toggle');
+            const theme = e.detail.theme;
+            const nextTheme = theme === 'light' ? 'dark' : 'light';
+            toggle.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
+        });
+    }
+    
+    handleReducedMotion() {
+        // Respect user's motion preferences
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        
+        const handleMotionPreference = (e) => {
+            if (e.matches) {
+                document.body.classList.add('reduced-motion');
+                // Add CSS to reduce animations
+                const style = document.createElement('style');
+                style.textContent = `
+                    .reduced-motion * {
+                        animation-duration: 0.01ms !important;
+                        transition-duration: 0.01ms !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            } else {
+                document.body.classList.remove('reduced-motion');
+            }
+        };
+        
+        // Check initial state
+        handleMotionPreference(mediaQuery);
+        
+        // Listen for changes
+        mediaQuery.addEventListener('change', handleMotionPreference);
     }
 }
 
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize all managers
-    const themeManager = new ThemeManager();
-    const smoothScroll = new SmoothScroll();
-    const animationObserver = new AnimationObserver();
-    const socialLinksManager = new SocialLinksManager();
-    const performanceMonitor = new PerformanceMonitor();
-    const accessibilityManager = new AccessibilityManager();
+// Scroll Effects Manager
+class ScrollEffectsManager {
+    constructor() {
+        this.init();
+    }
     
-    // Add a loading complete class to body
-    document.body.classList.add('loaded');
+    init() {
+        this.addNavbarScrollEffect();
+        this.addParallaxEffect();
+    }
     
-    console.log('Portfolio initialized successfully');
-});
+    addNavbarScrollEffect() {
+        const navbar = document.querySelector('.navbar');
+        let lastScrollTop = 0;
+        
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Hide/show navbar on scroll
+            if (scrollTop > lastScrollTop && scrollTop > 200) {
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+        
+        // Add scrolled navbar styles
+        if (!document.querySelector('style[data-navbar-scroll]')) {
+            const style = document.createElement('style');
+            style.setAttribute('data-navbar-scroll', 'true');
+            style.textContent = `
+                .navbar {
+                    transition: all 0.3s ease;
+                }
+                .navbar.scrolled {
+                    background: var(--nav-bg);
+                    box-shadow: 0 2px 20px var(--nav-shadow);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+    
+    addParallaxEffect() {
+        const imageContainer = document.querySelector('.image-container');
+        
+        if (imageContainer) {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * -0.3;
+                
+                if (scrolled < window.innerHeight) {
+                    imageContainer.style.transform = `translateY(${rate}px)`;
+                }
+            });
+        }
+    }
+}
+
+// Main Application Initialization
+class PortfolioApp {
+    constructor() {
+        this.managers = {};
+        this.init();
+    }
+    
+    init() {
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.initializeManagers());
+        } else {
+            this.initializeManagers();
+        }
+    }
+    
+    initializeManagers() {
+        try {
+            // Initialize all managers
+            this.managers.theme = new ThemeManager();
+            this.managers.navigation = new SmoothNavigation();
+            this.managers.image = new ImageManager();
+            this.managers.social = new SocialLinksManager();
+            this.managers.performance = new PerformanceManager();
+            this.managers.accessibility = new AccessibilityManager();
+            this.managers.scrollEffects = new ScrollEffectsManager();
+            
+            // Mark as loaded
+            document.body.classList.add('portfolio-loaded');
+            
+            // Dispatch ready event
+            document.dispatchEvent(new CustomEvent('portfolioReady', {
+                detail: { managers: this.managers }
+            }));
+            
+            console.log('Portfolio initialized successfully');
+            
+        } catch (error) {
+            console.error('Error initializing portfolio:', error);
+            
+            // Fallback initialization
+            this.initializeFallback();
+        }
+    }
+    
+    initializeFallback() {
+        // Basic functionality if full initialization fails
+        console.log('Running in fallback mode');
+        
+        // At minimum, initialize theme manager
+        try {
+            this.managers.theme = new ThemeManager();
+        } catch (error) {
+            console.error('Could not initialize theme manager:', error);
+        }
+    }
+}
+
+// Initialize the application
+const portfolioApp = new PortfolioApp();
