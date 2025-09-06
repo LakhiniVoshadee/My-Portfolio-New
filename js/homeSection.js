@@ -1,157 +1,340 @@
-// Theme toggle functionality
-const themeToggle = document.querySelector('.theme-toggle');
-const icon = themeToggle.querySelector('i');
-
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-theme');
-    
-    if (icon.classList.contains('fa-moon')) {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-    } else {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
+// Theme Management
+class ThemeManager {
+    constructor() {
+        this.themeToggle = document.getElementById('theme-toggle');
+        this.themeIcon = document.getElementById('theme-icon');
+        this.currentTheme = localStorage.getItem('theme') || 'light';
+        
+        this.init();
     }
-});
-
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+    
+    init() {
+        // Set initial theme
+        this.setTheme(this.currentTheme);
+        
+        // Add event listener for theme toggle
+        this.themeToggle.addEventListener('click', () => {
+            this.toggleTheme();
+        });
+        
+        // Add keyboard support for theme toggle
+        this.themeToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.toggleTheme();
+            }
+        });
+        
+        // Listen for system theme changes
+        if (window.matchMedia) {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            mediaQuery.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    this.setTheme(e.matches ? 'dark' : 'light');
+                }
             });
         }
-    });
-});
-
-// Add scroll effect to navbar
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = 'none';
     }
-});
-
-// Add parallax effect to home section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const homeSection = document.querySelector('.home-section');
-    const imageContainer = document.querySelector('.image-container');
     
-    if (homeSection && imageContainer) {
-        const rate = scrolled * -0.5;
-        imageContainer.style.transform = `translateY(${rate}px)`;
+    toggleTheme() {
+        const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        this.setTheme(newTheme);
+        
+        // Add a subtle animation to the toggle button
+        this.themeToggle.style.transform = 'rotate(360deg)';
+        setTimeout(() => {
+            this.themeToggle.style.transform = '';
+        }, 300);
     }
-});
-
-// Add intersection observer for animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.animationPlayState = 'running';
+    
+    setTheme(theme) {
+        this.currentTheme = theme;
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        // Update icon
+        if (theme === 'dark') {
+            this.themeIcon.className = 'fas fa-sun';
+            this.themeToggle.setAttribute('title', 'Switch to Light Mode');
+        } else {
+            this.themeIcon.className = 'fas fa-moon';
+            this.themeToggle.setAttribute('title', 'Switch to Dark Mode');
         }
-    });
-}, observerOptions);
-
-// Observe elements for animation
-document.addEventListener('DOMContentLoaded', () => {
-    const animatedElements = document.querySelectorAll('.home-image, .greeting, .name, .title, .description, .cta-buttons, .social-links');
-    animatedElements.forEach(el => {
-        observer.observe(el);
-    });
-});
-
-// Add typing effect to the name (optional enhancement)
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.innerHTML = '';
-    
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
+        
+        // Trigger custom event for theme change
+        document.dispatchEvent(new CustomEvent('themeChanged', {
+            detail: { theme: theme }
+        }));
     }
-    
-    type();
 }
 
-// Initialize typing effect when page loads (uncomment to use)
-// window.addEventListener('load', () => {
-//     const nameElement = document.querySelector('.name');
-//     if (nameElement) {
-//         typeWriter(nameElement, 'Lakhini Voshadee', 150);
-//     }
-// });
-
-// Add smooth hover effects for social links
-document.querySelectorAll('.social-link').forEach(link => {
-    link.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-3px) scale(1.1)';
-    });
+// Smooth Scrolling for Anchor Links
+class SmoothScroll {
+    constructor() {
+        this.init();
+    }
     
-    link.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) scale(1)';
-    });
-});
-
-// Add click ripple effect to buttons
-document.querySelectorAll('.btn').forEach(button => {
-    button.addEventListener('click', function(e) {
-        const ripple = document.createElement('span');
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
+    init() {
+        // Get all anchor links
+        const anchorLinks = document.querySelectorAll('a[href^="#"]');
         
-        ripple.style.cssText = `
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            width: ${size}px;
-            height: ${size}px;
-            left: ${x}px;
-            top: ${y}px;
-            animation: ripple 0.6s ease-out;
-            pointer-events: none;
+        anchorLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                
+                // Skip if it's just a hash or placeholder
+                if (href === '#' || href === '#!') {
+                    e.preventDefault();
+                    return;
+                }
+                
+                const targetElement = document.querySelector(href);
+                
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Update URL without triggering scroll
+                    history.pushState(null, null, href);
+                }
+            });
+        });
+    }
+}
+
+// Animation Observer for Enhanced Animations
+class AnimationObserver {
+    constructor() {
+        this.observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        // Create intersection observer
+        this.observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                } else {
+                    entry.target.classList.remove('animate-in');
+                }
+            });
+        }, this.observerOptions);
+        
+        // Observe animated elements
+        const animatedElements = document.querySelectorAll('.home-content > *, .image-container');
+        animatedElements.forEach(el => {
+            this.observer.observe(el);
+        });
+    }
+}
+
+// Social Links Handler
+class SocialLinksManager {
+    constructor() {
+        this.socialLinks = document.querySelectorAll('.social-link');
+        this.init();
+    }
+    
+    init() {
+        this.socialLinks.forEach(link => {
+            // Add click analytics (placeholder)
+            link.addEventListener('click', (e) => {
+                const platform = this.getPlatformFromIcon(link);
+                this.trackSocialClick(platform);
+                
+                // If it's a placeholder link (#), prevent navigation
+                if (link.getAttribute('href') === '#') {
+                    e.preventDefault();
+                    this.showPlaceholderMessage(platform);
+                }
+            });
+            
+            // Add hover effects
+            link.addEventListener('mouseenter', () => {
+                this.addHoverEffect(link);
+            });
+            
+            link.addEventListener('mouseleave', () => {
+                this.removeHoverEffect(link);
+            });
+        });
+    }
+    
+    getPlatformFromIcon(link) {
+        const iconClasses = link.querySelector('i').className;
+        if (iconClasses.includes('linkedin')) return 'LinkedIn';
+        if (iconClasses.includes('github')) return 'GitHub';
+        if (iconClasses.includes('twitter')) return 'Twitter';
+        if (iconClasses.includes('dribbble')) return 'Dribbble';
+        if (iconClasses.includes('behance')) return 'Behance';
+        return 'Unknown';
+    }
+    
+    trackSocialClick(platform) {
+        console.log(`Social link clicked: ${platform}`);
+        // Here you would typically send analytics data
+        // Example: gtag('event', 'social_click', { platform: platform });
+    }
+    
+    showPlaceholderMessage(platform) {
+        // Create a temporary notification
+        const notification = document.createElement('div');
+        notification.className = 'social-notification';
+        notification.textContent = `${platform} link coming soon!`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            z-index: 1001;
+            font-weight: 500;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            animation: fadeInUp 0.3s ease;
         `;
         
-        this.style.position = 'relative';
-        this.style.overflow = 'hidden';
-        this.appendChild(ripple);
+        document.body.appendChild(notification);
         
+        // Remove after 2 seconds
         setTimeout(() => {
-            ripple.remove();
-        }, 600);
-    });
-});
-
-// Add CSS for ripple animation
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes ripple {
-        0% {
-            transform: scale(0);
-            opacity: 1;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 0;
-        }
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 2000);
     }
-`;
-document.head.appendChild(style);
+    
+    addHoverEffect(link) {
+        const icon = link.querySelector('i');
+        icon.style.transform = 'scale(1.2)';
+    }
+    
+    removeHoverEffect(link) {
+        const icon = link.querySelector('i');
+        icon.style.transform = 'scale(1)';
+    }
+}
+
+// Performance Observer for Monitoring
+class PerformanceMonitor {
+    constructor() {
+        this.init();
+    }
+    
+    init() {
+        // Monitor loading performance
+        window.addEventListener('load', () => {
+            if (window.performance && window.performance.timing) {
+                const loadTime = window.performance.timing.loadEventEnd - 
+                               window.performance.timing.navigationStart;
+                console.log(`Page loaded in ${loadTime}ms`);
+            }
+        });
+        
+        // Monitor theme changes performance
+        document.addEventListener('themeChanged', (e) => {
+            const start = performance.now();
+            requestAnimationFrame(() => {
+                const end = performance.now();
+                console.log(`Theme change took ${(end - start).toFixed(2)}ms`);
+            });
+        });
+    }
+}
+
+// Accessibility Enhancements
+class AccessibilityManager {
+    constructor() {
+        this.init();
+    }
+    
+    init() {
+        // Add focus management
+        this.addFocusManagement();
+        
+        // Add keyboard navigation
+        this.addKeyboardNavigation();
+        
+        // Add screen reader enhancements
+        this.addScreenReaderSupport();
+    }
+    
+    addFocusManagement() {
+        // Enhanced focus indicators
+        const focusableElements = document.querySelectorAll(
+            'button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        focusableElements.forEach(el => {
+            el.addEventListener('focus', () => {
+                el.style.outline = '2px solid var(--btn-primary-bg)';
+                el.style.outlineOffset = '2px';
+            });
+            
+            el.addEventListener('blur', () => {
+                el.style.outline = '';
+                el.style.outlineOffset = '';
+            });
+        });
+    }
+    
+    addKeyboardNavigation() {
+        // Handle Enter key on buttons
+        const buttons = document.querySelectorAll('.btn, .social-link');
+        buttons.forEach(btn => {
+            btn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.target.click();
+                }
+            });
+        });
+    }
+    
+    addScreenReaderSupport() {
+        // Add dynamic aria-labels based on theme
+        document.addEventListener('themeChanged', (e) => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const currentTheme = e.detail.theme;
+            const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            themeToggle.setAttribute('aria-label', 
+                `Current theme is ${currentTheme}. Click to switch to ${nextTheme} theme`
+            );
+        });
+        
+        // Initial aria-label
+        const themeToggle = document.getElementById('theme-toggle');
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+        themeToggle.setAttribute('aria-label', 
+            `Current theme is ${currentTheme}. Click to switch to ${nextTheme} theme`
+        );
+    }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize all managers
+    const themeManager = new ThemeManager();
+    const smoothScroll = new SmoothScroll();
+    const animationObserver = new AnimationObserver();
+    const socialLinksManager = new SocialLinksManager();
+    const performanceMonitor = new PerformanceMonitor();
+    const accessibilityManager = new AccessibilityManager();
+    
+    // Add a loading complete class to body
+    document.body.classList.add('loaded');
+    
+    console.log('Portfolio initialized successfully');
+});

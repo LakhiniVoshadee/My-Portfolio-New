@@ -45,6 +45,10 @@
     <meta name="author" content="Lakhini Voshadee" />
   </head>
   <body>
+     <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </button>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
       <div class="container">
@@ -131,52 +135,65 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="home-section">
-        <div class="home-container">
-            <div class="home-image">
-                <div class="image-container">
-                    <img src="assets/images/OrangeDress.jpg" alt="Lakhini Voshadee" class="profile-image">
-                    <div class="image-overlay"></div>
+      <section class="home-section">
+    <div class="container-fluid">
+        <div class="row align-items-center min-vh-100">
+            <!-- Profile Image Column -->
+            <div class="col-lg-6 col-md-12 order-2 order-lg-1">
+                <div class="home-image text-center">
+                    <div class="image-container">
+                        <img src="assets/images/OrangeDress.jpg" alt="Lakhini Voshadee" class="profile-image">
+                        <div class="image-overlay"></div>
+                    </div>
                 </div>
             </div>
-            <div class="home-content">
-                <div class="greeting">Hi, I'm</div>
-                <h1 class="name">Lakhini Voshadee</h1>
-                <h2 class="title">UI/UX & Full-Stack Engineer</h2>
-                <p class="description">
-                    Crafting seamless digital experiences through innovative design and robust development. 
-                    I transform ideas into user-centered solutions that make a difference.
-                </p>
-                <div class="cta-buttons">
-                    <a href="#work" class="btn btn-primary">
-                        <i class="fas fa-briefcase"></i>
-                        View My Work
-                    </a>
-                    <a href="#contact" class="btn btn-secondary">
-                        <i class="fas fa-envelope"></i>
-                        Get in Touch
-                    </a>
-                </div>
-                <div class="social-links">
-                    <a href="#" class="social-link" title="LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="social-link" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="#" class="social-link" title="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="social-link" title="Dribbble">
-                        <i class="fab fa-dribbble"></i>
-                    </a>
-                    <a href="#" class="social-link" title="Behance">
-                        <i class="fab fa-behance"></i>
-                    </a>
+            
+            <!-- Content Column -->
+            <div class="col-lg-6 col-md-12 order-1 order-lg-2">
+                <div class="home-content">
+                    <div class="greeting">Hi, I'm</div>
+                    <h1 class="name">Lakhini Voshadee</h1>
+                    <h2 class="title">UI/UX & Full-Stack Engineer</h2>
+                    <p class="description">
+                        Crafting seamless digital experiences through innovative design and robust development. 
+                        I transform ideas into user-centered solutions that make a difference.
+                    </p>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="cta-buttons mb-4">
+                        <a href="#work" class="btn btn-primary me-3 mb-2">
+                            <i class="fas fa-briefcase me-2"></i>
+                            View My Work
+                        </a>
+                        <a href="#contact" class="btn btn-secondary mb-2">
+                            <i class="fas fa-envelope me-2"></i>
+                            Get in Touch
+                        </a>
+                    </div>
+                    
+                    <!-- Social Links -->
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Dribbble">
+                            <i class="fab fa-dribbble"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Behance">
+                            <i class="fab fa-behance"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
 
@@ -250,7 +267,7 @@
           <div class="col-lg-6">
             <div class="about-image">
               <img
-                src="assets/images/WhiteFormal.png"
+                src="assets/images/OrangeDress.jpg"
                 alt="Working on projects"
                 class="img-fluid rounded-3"
               />
