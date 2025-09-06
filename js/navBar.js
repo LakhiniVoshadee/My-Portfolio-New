@@ -1,16 +1,18 @@
 // Theme Management
 class ThemeManager {
     constructor() {
-        this.theme = localStorage.getItem('theme') || 'dark';
+        this.theme = localStorage.getItem('theme') || 'light'; // Default to light for better initial accessibility
         this.themeToggle = document.getElementById('themeToggle');
-        this.themeIcon = this.themeToggle.querySelector('.theme-icon');
+        this.themeIcon = this.themeToggle?.querySelector('.theme-icon');
         
         this.init();
     }
     
     init() {
-        this.setTheme(this.theme);
-        this.themeToggle.addEventListener('click', () => this.toggleTheme());
+        if (this.themeToggle && this.themeIcon) {
+            this.setTheme(this.theme);
+            this.themeToggle.addEventListener('click', () => this.toggleTheme());
+        }
     }
     
     setTheme(theme) {
@@ -19,14 +21,13 @@ class ThemeManager {
         this.theme = theme;
         
         // Update icon
-        if (theme === 'dark') {
-            this.themeIcon.className = 'fas fa-sun theme-icon';
-        } else {
-            this.themeIcon.className = 'fas fa-moon theme-icon';
+        if (this.themeIcon) {
+            this.themeIcon.className = `fas fa-${theme === 'dark' ? 'sun' : 'moon'} theme-icon`;
         }
     }
     
     toggleTheme() {
+        if (!this.themeIcon) return;
         const newTheme = this.theme === 'dark' ? 'light' : 'dark';
         
         // Add rotation animation
@@ -46,6 +47,7 @@ class NavigationManager {
         this.navPills = document.querySelectorAll('.nav-pill');
         this.mobileNavPills = document.querySelectorAll('.mobile-nav-pill');
         this.sections = document.querySelectorAll('section[id]');
+        this.navbarCollapse = document.querySelector('.navbar-collapse');
         
         this.init();
     }
@@ -53,17 +55,19 @@ class NavigationManager {
     init() {
         this.handleScroll();
         this.handleNavigation();
-        this.handleMobileMenu();
         
-        window.addEventListener('scroll', () => this.handleScroll());
+        // Throttle scroll events for performance
+        window.addEventListener('scroll', this.throttle(() => this.handleScroll(), 100));
     }
     
     handleScroll() {
         // Navbar scroll effect
-        if (window.scrollY > 50) {
-            this.navbar.classList.add('scrolled');
-        } else {
-            this.navbar.classList.remove('scrolled');
+        if (this.navbar) {
+            if (window.scrollY > 50) {
+                this.navbar.classList.add('scrolled');
+            } else {
+                this.navbar.classList.remove('scrolled');
+            }
         }
         
         // Active section highlighting
@@ -77,7 +81,7 @@ class NavigationManager {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
             
-            if (window.scrollY >= (sectionTop - 200)) {
+            if (window.scrollY >= (sectionTop - 200) && window.scrollY < (sectionTop + sectionHeight - 200)) {
                 current = section.getAttribute('id');
             }
         });
@@ -85,16 +89,20 @@ class NavigationManager {
         // Update desktop nav pills
         this.navPills.forEach(pill => {
             pill.classList.remove('active');
-            if (pill.getAttribute('href') === '#' + current) {
+            pill.removeAttribute('aria-current');
+            if (pill.getAttribute('href') === `#${current}`) {
                 pill.classList.add('active');
+                pill.setAttribute('aria-current', 'page');
             }
         });
         
         // Update mobile nav pills
         this.mobileNavPills.forEach(pill => {
             pill.classList.remove('active');
-            if (pill.getAttribute('href') === '#' + current) {
+            pill.removeAttribute('aria-current');
+            if (pill.getAttribute('href') === `#${current}`) {
                 pill.classList.add('active');
+                pill.setAttribute('aria-current', 'page');
             }
         });
     }
@@ -124,34 +132,28 @@ class NavigationManager {
                 block: 'start'
             });
             
-            // Update active state immediately
+            // Update active state
             document.querySelectorAll('.nav-pill, .mobile-nav-pill').forEach(p => {
                 p.classList.remove('active');
+                p.removeAttribute('aria-current');
             });
             pill.classList.add('active');
-            
-            // Close mobile menu if open
-            const navbarCollapse = document.querySelector('.navbar-collapse');
-            if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-                const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-                bsCollapse.hide();
-            }
+            pill.setAttribute('aria-current', 'page');
         }
     }
     
-    handleMobileMenu() {
-        // Auto-close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            const navbarCollapse = document.querySelector('.navbar-collapse');
-            const navbarToggler = document.querySelector('.navbar-toggler');
-            
-            if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-                if (!navbarCollapse.contains(e.target) && !navbarToggler.contains(e.target)) {
-                    const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-                    bsCollapse.hide();
-                }
+    // Throttle function for performance
+    throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
             }
-        });
+        }
     }
 }
 
@@ -174,12 +176,10 @@ class PillAnimationManager {
     }
     
     onPillHover(pill) {
-        // Add subtle glow effect
         pill.style.boxShadow = '0 0 20px rgba(128, 128, 128, 0.3)';
     }
     
     onPillLeave(pill) {
-        // Remove glow effect if not active
         if (!pill.classList.contains('active')) {
             pill.style.boxShadow = '';
         }
@@ -203,7 +203,6 @@ class AnimationObserver {
     }
     
     init() {
-        // Observe demo sections for fade-in animations
         document.querySelectorAll('.demo-section').forEach(section => {
             this.observer.observe(section);
         });
@@ -219,39 +218,8 @@ class AnimationObserver {
     }
 }
 
-// Performance optimization
-class PerformanceOptimizer {
-    constructor() {
-        this.ticking = false;
-    }
-    
-    throttle(func, limit) {
-        let inThrottle;
-        return function() {
-            const args = arguments;
-            const context = this;
-            if (!inThrottle) {
-                func.apply(context, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
-        }
-    }
-    
-    debounce(func, delay) {
-        let timeoutId;
-        return function() {
-            const context = this;
-            const args = arguments;
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => func.apply(context, args), delay);
-        }
-    }
-}
-
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize managers
     new ThemeManager();
     new NavigationManager();
     new PillAnimationManager();
@@ -267,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Handle resize events
 window.addEventListener('resize', () => {
-    // Recalculate positions if needed
     const navbar = document.getElementById('navbar');
     if (navbar) {
         navbar.style.transition = 'none';
@@ -280,21 +247,10 @@ window.addEventListener('resize', () => {
 // Keyboard navigation support
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        // Close mobile menu
         const navbarCollapse = document.querySelector('.navbar-collapse');
-        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+        if (navbarCollapse?.classList.contains('show')) {
             const bsCollapse = new bootstrap.Collapse(navbarCollapse);
             bsCollapse.hide();
         }
-    }
-});
-
-// Add subtle parallax effect to navbar
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const navbar = document.getElementById('navbar');
-    
-    if (navbar && scrolled < 500) {
-        navbar.style.transform = `translateY(${scrolled * 0.1}px)`;
     }
 });
