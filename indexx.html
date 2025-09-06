@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakhini Voshadee - UI/UX & Full-Stack Engineer</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+   
+    <link rel="stylesheet" href="css/navBar.css">
+    <link rel="stylesheet" href="css/homeSection.css">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Lakhini Voshadee - UI/UX Designer & Full-Stack Developer crafting seamless digital experiences with modern technologies.">
+    <meta name="keywords" content="UI/UX Designer, Full-Stack Developer, React, Node.js, JavaScript, Web Developer, Portfolio">
+    <meta name="author" content="Lakhini Voshadee">
+</head>
+<body>
+    <!-- Navigation -->
+     <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <span class="brand-name">Lakhini V</span><span class="brand-dot">.</span>
+            </a>
+            
+            <div class="nav-pills-container d-none d-lg-flex">
+                <div class="nav-pills">
+                    <a href="#home" class="nav-pill active">Home</a>
+                    <a href="#about" class="nav-pill">About</a>
+                    <a href="#projects" class="nav-pill">Work</a>
+                    <a href="#skills" class="nav-pill">Skills</a>
+                    <a href="#contact" class="nav-pill">Contact</a>
+                </div>
+            </div>
+            
+            <div class="navbar-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon theme-icon"></i>
+                </button>
+                
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="collapse navbar-collapse d-lg-none" id="navbarNav">
+                <div class="mobile-nav-container">
+                    <div class="mobile-nav-pills">
+                        <a href="#home" class="mobile-nav-pill active">Home</a>
+                        <a href="#about" class="mobile-nav-pill">About</a>
+                        <a href="#projects" class="mobile-nav-pill">Work</a>
+                        <a href="#skills" class="mobile-nav-pill">Skills</a>
+                        <a href="#contact" class="mobile-nav-pill">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+     <section id="home" class="hero-section">
+        <div class="hero-background">
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+            </div>
+            <div class="grid-overlay"></div>
+        </div>
+        
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6 order-lg-1 order-2">
+                    <div class="hero-content" data-aos="fade-up">
+                        <div class="greeting-badge">
+                            <i class="fas fa-code"></i>
+                            <span>Welcome to my portfolio</span>
+                        </div>
+                        
+                        <h1 class="hero-title">
+                            <span class="greeting">Hi, I'm</span>
+                            <span class="name">Lakhini Voshadee</span>
+                            <span class="role">UI/UX & Full-Stack Engineer</span>
+                        </h1>
+                        
+                        <p class="hero-description">
+                            Crafting seamless digital experiences through innovative design and robust development. 
+                            I transform ideas into user-centered solutions that make a difference.
+                        </p>
+                        
+                        
+                        
+                        <div class="hero-buttons">
+                            <a href="#projects" class="btn btn-primary">
+                                <span>View My Work</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="#contact" class="btn btn-outline">
+                                <span>Get In Touch</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="hero-social">
+                            <span class="social-label">Follow me</span>
+                            <div class="social-links">
+                                <a href="https://github.com/LakhiniVoshadee" target="_blank" class="social-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="https://linkedin.com/in/lakhinivoshadee" target="_blank" class="social-link">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="https://dribbble.com/lakhinivoshadee" target="_blank" class="social-link">
+                                    <i class="fab fa-dribbble"></i>
+                                </a>
+                                <a href="mailto:lakhini@example.com" class="social-link">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 order-lg-2 order-1">
+                    <div class="hero-image" data-aos="fade-left">
+                        <div class="profile-container">
+                            <div class="profile-bg-shapes">
+                                <div class="bg-shape bg-shape-1"></div>
+                                <div class="bg-shape bg-shape-2"></div>
+                            </div>
+                            <div class="profile-frame">
+                                <img src="assets/images/OrangeDress.jpg" 
+                                     alt="Lakhini Voshadee" class="profile-img">
+                            </div>
+                            <div class="floating-tech-icons">
+                                <div class="tech-icon tech-icon-1"><i class="fab fa-react"></i></div>
+                                <div class="tech-icon tech-icon-2"><i class="fab fa-node-js"></i></div>
+                                <div class="tech-icon tech-icon-3"><i class="fab fa-figma"></i></div>
+                                <div class="tech-icon tech-icon-4"><i class="fab fa-javascript"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <span class="scroll-text">Scroll</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-title">About Me</h2>
+                    <div class="section-subtitle">Passionate about creating digital experiences that matter</div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-lg-6">
+                    <div class="about-content">
+                        <p class="about-text">
+                            I'm a passionate UI/UX Designer and Full-Stack Developer with expertise in creating 
+                            user-centered digital solutions. I combine design thinking with technical excellence 
+                            to build applications that not only look great but perform exceptionally.
+                        </p>
+                        <p class="about-text">
+                            With experience in modern frameworks like React, Node.js, and design tools like Figma, 
+                            I bridge the gap between design and development to deliver seamless user experiences.
+                        </p>
+                        
+                        <div class="resume-download mb-4">
+                            <a href="assets/Lakhini_Voshadee_Resume.pdf" download class="btn btn-outline-primary">
+                                <i class="fas fa-download me-2"></i>Download Resume
+                            </a>
+                        </div>
+                        
+                        <div class="about-stats mt-4">
+                            <div class="row">
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-item">
+                                        <div class="stat-number">15+</div>
+                                        <div class="stat-label">Projects</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-item">
+                                        <div class="stat-number">3+</div>
+                                        <div class="stat-label">Years Experience</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-item">
+                                        <div class="stat-number">10+</div>
+                                        <div class="stat-label">Happy Clients</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-item">
+                                        <div class="stat-number">24/7</div>
+                                        <div class="stat-label">Support</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-image">
+                        <img src="assets/images/WhiteFormal.png" 
+                             alt="Working on projects" class="img-fluid rounded-3">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Education and Experience Section -->
+            <div class="row mt-5">
+                <div class="col-lg-6">
+                    <div class="education-section">
+                        <h3 class="subsection-title">
+                            <i class="fas fa-graduation-cap me-2"></i>Education
+                        </h3>
+                        
+                        <div class="education-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">Higher Studies</h4>
+                                    <p class="timeline-subtitle">Institute of Java and Software Engineering</p>
+                                    <p class="timeline-description">
+                                        Specialized in Java programming, software engineering principles, and modern development frameworks.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">English & Soft Skills</h4>
+                                    <p class="timeline-subtitle">American Corner Matara</p>
+                                    <p class="timeline-description">
+                                        Enhanced communication skills and professional development through comprehensive English and soft skills training.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">Secondary Education (2010-2019)</h4>
+                                    <p class="timeline-subtitle">St. Thomas' Girls' High School Matara</p>
+                                    <p class="timeline-description">
+                                        Completed secondary education with strong foundation in science and mathematics.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">Primary Education (2005-2010)</h4>
+                                    <p class="timeline-subtitle">Uyanwatta Model Primary School Matara</p>
+                                    <p class="timeline-description">
+                                        Foundation education with emphasis on academic excellence and character development.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="experience-section">
+                        <h3 class="subsection-title">
+                            <i class="fas fa-briefcase me-2"></i>Experiences
+                        </h3>
+                        
+                        <div class="experience-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">Skills Development</h4>
+                                    <p class="timeline-subtitle">Self-Directed Learning</p>
+                                    <p class="timeline-description">
+                                        Learned advanced JavaScript frameworks like React, Node.js, and modern UI/UX design principles through online courses and practical projects.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">Academic Projects</h4>
+                                    <p class="timeline-subtitle">Various Institutions</p>
+                                    <p class="timeline-description">
+                                        Developed multiple web applications including task management systems and e-commerce platforms as part of academic coursework.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">Internships</h4>
+                                    <p class="timeline-subtitle">Tech Companies</p>
+                                    <p class="timeline-description">
+                                        Completed internships focusing on full-stack development and UI/UX design, gaining hands-on experience with modern technologies.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">Leadership Experience</h4>
+                                    <p class="timeline-subtitle">Uyanwatta Model Primary School Matara</p>
+                                    <p class="timeline-description">
+                                        Developed leadership and teamwork skills through various school activities and student organizations.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">Volunteer Work</h4>
+                                    <p class="timeline-subtitle">American Corner Matara</p>
+                                    <p class="timeline-description">
+                                        Participated in community service and volunteer programs, enhancing interpersonal and communication skills.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section bg-alternate">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <div class="section-subtitle">A showcase of my recent work in UI/UX and development</div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <!-- Project 1 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                 alt="Task Manager App" class="img-fluid">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="https://github.com/LakhiniVoshadee/task-manager-app" target="_blank" class="project-link">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="#" target="_blank" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Task Manager App</h3>
+                            <p class="project-description">
+                                A full-stack task management application with React frontend and Node.js backend, 
+                                featuring real-time updates and intuitive UI design.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">MongoDB</span>
+                                <span class="tech-tag">Figma</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                 alt="LitShelf BookStore" class="img-fluid">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="https://github.com/LakhiniVoshadee/LitShelf--Online-BookStore--Frontend" target="_blank" class="project-link">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="#" target="_blank" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">LitShelf Online BookStore</h3>
+                            <p class="project-description">
+                                Modern e-commerce platform for books with elegant UI design, advanced search functionality, 
+                                and seamless shopping experience.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">CSS3</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">UI/UX</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80" 
+                                 alt="Data Analysis Project" class="img-fluid">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="https://github.com/MaheshaDinu/online-retail-analysis-python-assignment" target="_blank" class="project-link">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="#" target="_blank" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Retail Data Analysis</h3>
+                            <p class="project-description">
+                                Comprehensive data analysis project using Python to derive insights from online retail data 
+                                with interactive visualizations.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Pandas</span>
+                                <span class="tech-tag">Matplotlib</span>
+                                <span class="tech-tag">Jupyter</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-title">Skills & Technologies</h2>
+                    <div class="section-subtitle">Tools and technologies I work with</div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-lg-6">
+                    <h3 class="skills-category">Frontend Development</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <i class="fab fa-react"></i>
+                            </div>
+                            <div class="skill-info">
+                                <h4>React</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <i class="fab fa-js-square"></i>
+                            </div>
+                            <div class="skill-info">
+                                <h4>JavaScript</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <i class="fab fa-css3-alt"></i>
+                            </div>
+                            <div class="skill-info">
+                                <h4>CSS3</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="88%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <i class="fab fa-bootstrap"></i>
+                            </div>
+                            <div class="skill-info">
+                                <h4>Bootstrap</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <h3 class="skills-category">Backend & Design</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <i class="fab fa-node-js"></i>
+                            </div>
+                            <div class="skill-info">
+                                <h4>Node.js</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="skill-info">
+                                <h4>MongoDB</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="75%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <i class="fab fa-figma"></i>
+                            </div>
+                            <div class="skill-info">
+                                <h4>Figma</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-icon">
+                                <i class="fab fa-python"></i>
+                            </div>
+                            <div class="skill-info">
+                                <h4>Python</h4>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="70%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section bg-alternate">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <div class="section-subtitle">Let's work together on your next project</div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                            </div>
+                            <div class="form-group mb-4">
+                                <textarea class="form-control" name="message" rows="6" placeholder="Your Message" required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-lg-12">
+                    <div class="contact-info">
+                        <div class="row">
+                            <div class="col-md-4 text-center mb-4">
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <h4>Email</h4>
+                                    <p>lakhini@example.com</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mb-4">
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fab fa-linkedin"></i>
+                                    </div>
+                                    <h4>LinkedIn</h4>
+                                    <p>linkedin.com/in/lakhinivoshadee</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mb-4">
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fab fa-github"></i>
+                                    </div>
+                                    <h4>GitHub</h4>
+                                    <p>github.com/LakhiniVoshadee</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>&copy; 2025 Lakhini Voshadee. All rights reserved.</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/LakhiniVoshadee" target="_blank" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/lakhinivoshadee" target="_blank" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://dribbble.com/lakhinivoshadee" target="_blank" class="social-link">
+                            <i class="fab fa-dribbble"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+
+    <script src="js/navBar.js"></script>
+    <script src="js/homeSection.js"></script>
+</body>
+</html>
